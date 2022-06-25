@@ -1,0 +1,62 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %} Ticket | Detail {% endblock %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<!-- Left sidebar menu start -->
+{% include 'partials/_LeftSideBar.html' %}
+<!-- Left sidebar menu end -->
+
+<main class="ttr-wrapper">
+   
+        
+        
+        <div class="container-fluid">
+            	
+            <div class="row">
+                <!-- Alerts-->	
+				{% include 'partials/_alerts.html' %}
+				<!-- Alerts End-->
+                <!-- Your Profile Views Chart -->
+                <div class="col-md-12">
+                    <span class="h4" style="color: green;">Ticket Details</span></span><a class="btn btn-success ml-5" href="{% url 'edit-bank' user.bankdetails.id %}">Edit</a>
+                    <hr>
+                    <table class="table bg-white table-borderless">
+                        <tbody>
+                          <tr>
+                            <th scope="row">Ticket Name:</th>
+                            <td>{{ticket.name}}</td>
+                          </tr>   
+                          <tr>
+                            <th scope="row">Ticket Price:</th>
+                            <td>{{ticket.price}}</td>                                   
+                          </tr>  
+                          <tr>
+                            <th scope="row">Ticket Category:</th>
+                            <td>{{ticket.category}}</td>                                   
+                          </tr>  
+                          <tr>
+                            <th scope="row">Ticket Status:</th>
+                            <td>{{ticket.status}}</td>                                   
+                          </tr>   
+                          
+                          
+                        </tbody>
+                        
+                    </table>
+                    <a class="btn btn-success mr-5" href="">Generate Pin</a>
+                </div>
+                <!-- Your Profile Views Chart END-->
+            </div>
+        </div>
+        
+    
+</main>
+
+{% endblock %}

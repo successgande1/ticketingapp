@@ -1,0 +1,121 @@
+{% load static %}
+
+<div class="ttr-sidebar">
+    <div class="ttr-sidebar-wrapper content-scroll">
+        <!-- side menu logo start -->
+        <div class="ttr-sidebar-logo">
+            <a href="#"><img alt="" src="{% static 'assets/images/logo.png' %}" width="122" height="27"></a>
+            <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
+                <i class="material-icons ttr-fixed-icon">gps_fixed</i>
+                <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
+            </div> -->
+            <div class="ttr-sidebar-toggle-button">
+                <i class="ti-arrow-left"></i>
+            </div>
+        </div>
+        <!-- side menu logo end -->
+        <!-- sidebar menu start -->
+        <nav class="ttr-sidebar-navi">
+            <ul>
+                <li>
+                    <a href="{% url 'dashboard-index' %}" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-home"></i></span>
+                        <span class="ttr-label">Dashboard</span>
+                    </a>
+                </li>
+                
+                <!--Check if User is login and is also a staff and a superuser-->
+                {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+
+
+                <li>
+                    <a href="#" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-email"></i></span>
+                        <span class="ttr-label">Staff Management</span>
+                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                    </a>
+                    <ul>
+                       
+                        <li>
+                            <a href="{% url 'user-register' %}" class="ttr-material-button"><span class="ttr-label">Add Staff</span></a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'staff-list' %}" class="ttr-material-button"><span class="ttr-label">View Staff</span></a>
+                        </li>
+                    </ul>
+                </li>
+                
+
+                <li>
+                    <a href="#" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-email"></i></span>
+                        <span class="ttr-label">Event Management</span>
+                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                    </a>
+                    <ul>
+                       
+                        <li>
+                            <a href="{% url 'create-event' %}" class="ttr-material-button"><span class="ttr-label">Add Event</span></a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'event-list' %}" class="ttr-material-button"><span class="ttr-label">View Events</span></a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'create-ticket' %}" class="ttr-material-button"><span class="ttr-label">Create Ticket</span></a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'ticket-list' %}" class="ttr-material-button"><span class="ttr-label">View Tickets</span></a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'pin-list' %}" class="ttr-material-button"><span class="ttr-label">List Pins</span></a>
+                        </li>
+
+                       
+                        
+                        <li>
+                            <a href="" class="ttr-material-button"><span class="ttr-label">Application Statistics</span></a>
+                        </li>
+
+                        <li>
+                            <a href="" class="ttr-material-button"><span class="ttr-label">Logout</span></a>
+                        </li>
+
+                    </ul>
+                </li>
+
+               {% else %}
+               
+               
+               
+                
+
+
+             
+                <li>
+                    <a href="" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-book"></i></span>
+                        <span class="ttr-label">My Application</span></a>
+                </li>
+
+                <li>
+                    <a href="" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-book"></i></span>
+                        <span class="ttr-label">Logout</span></a>
+                   
+                </li>
+                
+               
+                {% endif %}
+               
+                <li class="ttr-seperate"></li>
+            </ul>
+            <!-- sidebar menu end -->
+        </nav>
+        <!-- sidebar menu end -->
+    </div>
+</div>

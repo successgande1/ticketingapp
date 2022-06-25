@@ -1,0 +1,143 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %}  Staff List {% endblock %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% load humanize %}
+
+{% block content %}
+
+<!-- Left sidebar menu start -->
+{% include 'partials/_LeftSideBar.html' %}
+<!-- Left sidebar menu end -->
+
+<main class="ttr-wrapper">
+    <div class="container-fluid"> 
+        
+        <div class="container-fluid">
+            <div class="db-breadcrumb">
+                <h4 class="breadcrumb-title">Staff</h4>
+                <ul class="db-breadcrumb-list">
+                    <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
+                    <li>List of Staff</li>
+                </ul>
+            </div>	
+
+                
+                 <!-- Alerts-->	
+                {% include 'partials/_alerts.html' %}
+                <!-- Alerts End-->
+                
+                    <div class="col-md-12">
+                        <table class="table bg-white">
+                            <thead class="bg-info text-white">
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Surname</th>
+                                <th scope="col">Other Names</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Action</th>
+                              </tr> 
+                            </thead>
+                            {% if users %}
+                            <tbody>
+                            
+                              
+                              {% for staff in users %}
+                              <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ staff.profile.staff.username }}</td>
+                                <td>{{ staff.profile.staff.email}}</td>
+                                <td>{{ staff.profile.surname }}</td>
+                                <td>{{ staff.profile.othernames }}</td>
+                                <td>{{ staff.profile.phone }}</td>
+                                <td> <a class="btn btn-primary" href=" ">Delete</a></td>
+                              </tr>
+                              {% endfor %}  
+                            
+                            </tbody>
+                            {% else %}  
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h5 style="text-align: center; color:red;">
+                                            No User Found
+                                        </h5>
+                                    </td>
+                                </tr>
+                              </tbody>
+                            
+                           {% endif %}
+                          </table>
+                    </div>
+                    
+                
+                <!-- List Applicants END-->
+            
+        </div>
+
+        <!--Pagination Start Here-->
+        <div class="table-responsive mr-3">
+          <div class="col-md-8 mr-3">
+            {% if list_applicants.has_other_pages %}
+            <ul class="pagination">
+              {% if list_applicants.has_previous %}
+              <li class="page-item">
+                <a href="?page={{list_apps.previous_page_number}}" class="page-link">
+                  &laquo;
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">
+                  &laquo;
+                </a>
+              </li>
+              {% endif %}
+              {% for i in list_applicants.paginator.page_range %}
+  
+              {% if list_applicants.number == i %}
+  
+              <li class="page-item active">
+                <a  class="page-link">
+                  {{i}}
+                </a>
+              </li>
+  
+              {% else %}
+  
+              <li class="page-item">
+                <a href="?page={{i}}" class="page-link">{{i}}</a>
+              </li>
+  
+              {% endif %}
+  
+              {% endfor %}
+  
+              {% if list_applicants.has_next %}
+              <li class="page-item">
+                <a href="?page={{list_applicants.next_page_number}}" class="page-link">
+                  &raquo;
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">
+                  &raquo;
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+            {% endif %}
+          </div>
+        </div> 
+        
+    </div>
+</main>
+
+{% endblock %}

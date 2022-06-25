@@ -1,0 +1,21 @@
+{% include 'dashboard_base.html' %}
+
+{% block title %} Dashboard :  }}  {% endblock %}
+
+<!-- Left sidebar menu start -->{{ request.user.username
+{% include 'partials/_LeftSideBar.html' %}
+<!-- Left sidebar menu end -->
+
+
+
+{% block content %} 
+
+
+	
+
+	
+
+	<!--Main container start -->
+  {% include 'partials/_dashboard_main.html' %}
+
+{% endblock %}

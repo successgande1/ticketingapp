@@ -1,0 +1,42 @@
+#slip{
+  
+    font-family: sans-serif;
+    
+}
+
+#slip, table{
+    width: 100%;
+}
+
+.passport{
+    float: left;
+    margin-left: 40%;
+    margin-bottom: 2%;
+}
+
+.pass{
+    float: right;
+    
+    
+}
+
+.slip-table{
+    width: 80% !important;
+    margin-left: 10%;
+}
+
+.slip-header{
+    margin-left: 10%;
+    float: left;
+    width: 90%;
+}
+
+.slip-heading{
+    font-size: 1.3rem;
+    color: green;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: bolder;
+}
+
+
