@@ -22,6 +22,8 @@ def login(request):
 def register(request):
     #Create variable and query all users
     workers = User.objects.all()
+    #Page Name
+    page_title = "User Register"
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
@@ -33,6 +35,27 @@ def register(request):
     context = {
         'form':form,
         'workers':workers,
+        'page_title':page_title,
+    }
+    return render(request, 'user/register.html', context)
+
+#Register New User Method
+def register_guest(request):
+    #Create variable and query all users
+    workers = User.objects.all()
+    page_title = "Event Guest Register"
+    if request.method == 'POST':
+        form = GuestUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Registered Successfully.')
+            return redirect('dashboard-index')
+    else:
+        form = GuestUserForm()
+    context = {
+        'form':form,
+        'workers':workers,
+        'page_title':page_title,
     }
     return render(request, 'user/register.html', context)
 
@@ -109,19 +132,19 @@ def pin_activation(request):
             #Check the status of the user Pin with the one in the Database
             check_pin_status = Pin.objects.filter(value=form['pin'].value(), status='Not Activated')
 
-            #Check with the Status of the Pin is Right
+            #Check if the PIN is correct and NOT ACTIVATED
             if check_pin_status:
 
-                #Update the User Pin with a new status
+                #Update the User Pin with a new status of Activated
                 Pin.objects.filter(value=form['pin'].value()).update(status='Activated')
                 #Message the User
                 messages.success(request, 'Pin Activated Successfully')
                 #Redirect the user
-                return redirect('guest-index')
+                return redirect('register-guest')
      
             else:
-                messages.error(request, 'Pin Already Activated.You are Logged In.')
-                return redirect('guest-index')
+                messages.error(request, 'Pin Already Activated. Please Login.')
+                return redirect('user-login')
         else:
             messages.error(request, 'Something Went Wrong. Try again')
     else:

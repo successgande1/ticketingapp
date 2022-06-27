@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('dashboard.urls')),
     path('register/', user_views.register, name = 'user-register'),
+    path('guest/register/', user_views.register_guest, name = 'register-guest'),
     path('', auth_views.LoginView.as_view(template_name='user/login.html'), name = 'user-login'),
     path('event/add/', user_views.EventCreateView.as_view(), name = 'create-event'),
     path('event/list/', user_views.EventListView.as_view(), name='event-list'),

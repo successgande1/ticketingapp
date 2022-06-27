@@ -28,7 +28,7 @@ GENDER = (
 
 
 class Profile(models.Model):
-    staff = models.OneToOneField(User, on_delete=models.CASCADE, null = True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null = True)
     surname = models.CharField(max_length=20, null=True)
     othernames = models.CharField(max_length=40, null=True)
     gender = models.CharField(max_length=6, choices=GENDER, blank=True, null=True)
