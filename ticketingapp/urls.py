@@ -22,10 +22,13 @@ from user import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('dashboard.urls')),
+    path('', include('pages.urls')),
+    path('users/', include('dashboard.urls')),
     path('register/', user_views.register, name = 'user-register'),
     path('guest/register/', user_views.register_guest, name = 'register-guest'),
     path('', auth_views.LoginView.as_view(template_name='user/login.html'), name = 'user-login'),
+    path('profile/', user_views.profile, name = 'user-profile'),
+    path('profile/update/', user_views.profile_update, name = 'user-profile-update'),
     path('event/add/', user_views.EventCreateView.as_view(), name = 'create-event'),
     path('event/list/', user_views.EventListView.as_view(), name='event-list'),
     path('ticket/add/', user_views.TicketCreateView.as_view(), name = 'create-ticket'),

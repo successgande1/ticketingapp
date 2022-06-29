@@ -9,9 +9,9 @@ from django.contrib import messages
 # Create your views here.
 
 def index(request):
-    return render(request, 'dashboard/index.html') 
+    return render(request, 'user/profile.html') 
 
 #Event Guess Index
 def guest_home(request):
-    return render(request, 'dashboard/guest_index.html')
+    return render(request, 'user/profile.html')
     

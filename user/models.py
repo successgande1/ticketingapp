@@ -34,7 +34,6 @@ class Profile(models.Model):
     gender = models.CharField(max_length=6, choices=GENDER, blank=True, null=True)
     phone = PhoneNumberField()
     image = models.ImageField(default='avatar.jpg', blank=False, null=False, upload_to ='profile_images', 
-   
     )
     
 
@@ -91,7 +90,8 @@ class Pin(models.Model):
     value = models.CharField(max_length=6, default=generate_pin, blank=True)
     added = models.DateTimeField(auto_now_add=True,  blank=False)
     reference = models.UUIDField(primary_key = True, editable = False, default=uuid.uuid4)
-    status = models.CharField(max_length=20, default='Not Activated')
+    status = models.CharField(max_length=30, default='Not Activated')
+    
     #Save Reference Number
     def save(self, *args, **kwargs):
          self.reference == str(uuid.uuid4())

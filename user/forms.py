@@ -33,6 +33,29 @@ class GuestUserForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'group']
 
+#User Update Form
+class UserUpdateForm(forms.ModelForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+# #Update Profile Form
+class ProfileUpdateForm(forms.ModelForm):
+    surname = forms.CharField(label='Surname:', widget=forms.TextInput(attrs={'placeholder': 'Applicant\'s Inherited Family Name.'}))
+    othernames = forms.CharField(label='Other Names:', widget=forms.TextInput(attrs={'placeholder': 'Applicant\'s First and Middle Name(s).'}))
+    # phone = PhoneNumberField(
+    #     widget = PhoneNumberPrefixWidget(initial="NG")
+    # )
+    phone = PhoneNumberField()
+   
+    image = forms.ImageField(required=True)
+    class Meta:
+        model = Profile
+        fields = ['surname', 'othernames', 'phone', 'image'] 
+
 #Date Picket Widgets for date field for Event Form
 class EventDateField(forms.DateInput):
     input_type = 'date'

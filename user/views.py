@@ -13,12 +13,19 @@ from . forms import *
 from django.core import paginator
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login(request):
-    return render(request, 'user/login.html')
+    page_title = "User Login"
+
+    context = {
+        'page_title':page_title,
+    }
+    return render(request, 'user/login.html', context)
 
 #Register New User Method
+
 def register(request):
     #Create variable and query all users
     workers = User.objects.all()
@@ -42,22 +49,74 @@ def register(request):
 #Register New User Method
 def register_guest(request):
     #Create variable and query all users
-    workers = User.objects.all()
+    user_pins = Pin.objects.all()
+    
     page_title = "Event Guest Register"
     if request.method == 'POST':
         form = GuestUserForm(request.POST)
-        if form.is_valid():
+        pin_form = PinActivationForm(request.POST)
+        if form.is_valid() and pin_form.is_valid():
             form.save()
+            Pin.objects.filter(value=pin_form['pin'].value()).update(status='Activated')
             messages.success(request, 'Registered Successfully.')
+            #Pin.objects.filter(value=form['pin'].value()).update(status='Validated')
             return redirect('dashboard-index')
     else:
         form = GuestUserForm()
+        pin_form = PinActivationForm()
     context = {
         'form':form,
-        'workers':workers,
+        'pin_form':pin_form,
         'page_title':page_title,
     }
     return render(request, 'user/register.html', context)
+
+@login_required(login_url='user-login')
+def profile(request):
+    #count submited Applications
+    
+    
+ 
+    return render(request, 'user/profile.html')
+   
+#Update Profile Method
+@login_required(login_url='user-login')
+def profile_update(request):
+    if request.method == 'POST':
+        #create user form variable
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        #create update form variable
+        
+
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, 
+        instance=request.user.profile)
+    #Check if both forms are valid
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profile Updated Successfully.')
+            return redirect('user-profile')
+            #profile_form.cleaned_data['profilestatus'] ='Updated'
+            
+            # image = profile_form.cleaned_data['image']
+
+            # if not image:
+            #     messages.error(request, 'Passport is Needed.')
+            #     return redirect('user-profile-update')
+
+            # else:
+                
+        else:
+            messages.error(request, 'Check Your Passport Image.')
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'user/profile_update.html', context)
 
 #Create Event View
 class EventCreateView(LoginRequiredMixin, CreateView):
@@ -101,6 +160,7 @@ class TicketDetail(LoginRequiredMixin, DetailView):
         return reverse_lazy('generate-pin', kwargs = {'pk' : self.get_object().id})
 
 #Function to Generate Pin for Tickets
+@login_required(login_url='user-login')
 def generate_pins_for_ticket(request, ticket_id):
     if request.user.is_superuser:
         ticket = Ticket.objects.get(id=ticket_id)
@@ -136,15 +196,20 @@ def pin_activation(request):
             if check_pin_status:
 
                 #Update the User Pin with a new status of Activated
-                Pin.objects.filter(value=form['pin'].value()).update(status='Activated')
+                Pin.objects.filter(value=form['pin'].value()).update(status='Validated')
                 #Message the User
-                messages.success(request, 'Pin Activated Successfully')
+                messages.success(request, 'Pin Validated Successfully')
                 #Redirect the user
                 return redirect('register-guest')
      
-            else:
-                messages.error(request, 'Pin Already Activated. Please Login.')
+            elif Pin.objects.filter(value=form['pin'].value(), status="Validated"):
+                messages.error(request, 'Pin Already Validated. Please Activate Now')
+                return redirect('register-guest')
+            elif  Pin.objects.filter(value=form['pin'].value(), status="Activated"):
+                messages.error(request, "Pin Already Activated, Login.")
                 return redirect('user-login')
+                
+                   
         else:
             messages.error(request, 'Something Went Wrong. Try again')
     else:

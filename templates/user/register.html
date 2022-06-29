@@ -36,6 +36,7 @@
                             {% csrf_token %}
 
                             {{ form | crispy }}
+                            {{ pin_form | crispy }}
                     
                     <input class="btn btn-success" type="submit" value="Register">
 

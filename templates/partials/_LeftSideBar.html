@@ -25,7 +25,7 @@
                 </li>
                 
                 <!--Check if User is login and is also a staff and a superuser-->
-                {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+                {% if user.is_authenticated and user.is_superuser %}
 
 
                 <li>
@@ -99,11 +99,17 @@
                 <li>
                     <a href="" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-book"></i></span>
-                        <span class="ttr-label">My Application</span></a>
+                        <span class="ttr-label">My Profile</span></a>
                 </li>
 
                 <li>
                     <a href="" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-book"></i></span>
+                        <span class="ttr-label">My Reservations</span></a>
+                </li>
+
+                <li>
+                    <a href="{% url 'user-logout' %}" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-book"></i></span>
                         <span class="ttr-label">Logout</span></a>
                    
