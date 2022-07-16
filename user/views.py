@@ -15,14 +15,13 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
-def login(request):
-    page_title = "User Login"
+# def login(request):
+#     page_title = "User Login"
 
-    context = {
-        'page_title':page_title,
-    }
-    return render(request, 'user/login.html', context)
+#     context = {
+#         'page_title':page_title,
+#     }
+#     return render(request, 'user/login_page.html', context)
 
 #Register New User Method
 
@@ -46,30 +45,7 @@ def register(request):
     }
     return render(request, 'user/register.html', context)
 
-#Register New User Method
-def register_guest(request):
-    #Create variable and query all users
-    user_pins = Pin.objects.all()
-    
-    page_title = "Event Guest Register"
-    if request.method == 'POST':
-        form = GuestUserForm(request.POST)
-        pin_form = PinActivationForm(request.POST)
-        if form.is_valid() and pin_form.is_valid():
-            form.save()
-            Pin.objects.filter(value=pin_form['pin'].value()).update(status='Activated')
-            messages.success(request, 'Registered Successfully.')
-            #Pin.objects.filter(value=form['pin'].value()).update(status='Validated')
-            return redirect('dashboard-index')
-    else:
-        form = GuestUserForm()
-        pin_form = PinActivationForm()
-    context = {
-        'form':form,
-        'pin_form':pin_form,
-        'page_title':page_title,
-    }
-    return render(request, 'user/register.html', context)
+
 
 @login_required(login_url='user-login')
 def profile(request):
@@ -95,7 +71,7 @@ def profile_update(request):
             user_form.save()
             profile_form.save()
             messages.success(request, 'Profile Updated Successfully.')
-            return redirect('user-profile')
+            return redirect('user-add-drink')
             #profile_form.cleaned_data['profilestatus'] ='Updated'
             
             # image = profile_form.cleaned_data['image']
@@ -199,12 +175,13 @@ def pin_activation(request):
                 Pin.objects.filter(value=form['pin'].value()).update(status='Validated')
                 #Message the User
                 messages.success(request, 'Pin Validated Successfully')
-                #Redirect the user
+                #Redirect the user to register for seat
                 return redirect('register-guest')
-     
+            #Check filter the DB where the PIN status is Validated
             elif Pin.objects.filter(value=form['pin'].value(), status="Validated"):
-                messages.error(request, 'Pin Already Validated. Please Activate Now')
+                messages.error(request, 'Pin Already Validated. Register for Seat')
                 return redirect('register-guest')
+            #Check Filter PIN in DB where Status is Activated
             elif  Pin.objects.filter(value=form['pin'].value(), status="Activated"):
                 messages.error(request, "Pin Already Activated, Login.")
                 return redirect('user-login')
@@ -219,10 +196,108 @@ def pin_activation(request):
     }
     return render(request, 'user/pin_activation.html', context)
 
+#Register New User Method
+def register_guest(request):
+    #Create variable and query all users
+    #user_pins = Pin.objects.all()
+    page_title = "Festival Registration"
+    if request.method == 'POST':
+        form = GuestUserForm(request.POST)
+        pin_form = PinActivationForm(request.POST)
+        if form.is_valid() and pin_form.is_valid():
+            Guest.objects.create(guest_name=form['username'].value(), pin=pin_form['pin'].value())
+            form.save()
+            Pin.objects.filter(value=pin_form['pin'].value()).update(status='Activated')
+            messages.success(request, 'Registered Successfully. Login')
+
+            #Pin.objects.filter(value=form['pin'].value()).update(status='Validated')
+            return redirect('user-login')
+    else:
+        form = GuestUserForm()
+        pin_form = PinActivationForm()
+    context = {
+        'form':form,
+        'pin_form':pin_form,
+        'page_title':page_title,
+    }
+    return render(request, 'user/register.html', context)
+
 #User List View
 class UserListView(ListView):
 	template_name = 'user/staff_list.html'
 	queryset = User.objects.all()
 	context_object_name = 'users'
+
+@login_required(login_url='user-login')
+def Guest_Add_Drink(request):
+
+    try:
+        guest_drink = Drink.objects.get(user=request.user)
+    except Drink.DoesNotExist:
+        if request.method=='POST':
+            form = DrinkForm(request.POST)
+            if form.is_valid():
+                drink = form.save(commit=False)
+                drink.user = request.user
+                drink.save()
+                form.save_m2m() # needed since using commit=False
+                return redirect('guest-confirmation')
+            
+        else:
+            form = DrinkForm()
+        
+        context = {
+            'form':form,
+            'Page':'Event Drinks Preference',
+        }
+
+        return render (request, 'user/add_guest_drink.html', context )
+    else:
+        return redirect('guest-confirmation')
+        
+
+    
+
+@login_required(login_url='user-login')
+def guest_confirmation(request):
+    #Get Guest Details
+    guest_details = Guest.objects.get(guest_name=request.user)
+    #Get Guest PIN from Guest Table
+    guest_pin = guest_details.pin
+    #Get Guest PIN from PIN Table for  Event Details
+    user_event_pin = Pin.objects.get(value=guest_pin) 
+   
+    #Get the Guest Registered Event Name through the ticket table
+    event = user_event_pin.ticket.event
+    #Get the Event Date through the Ticket and Event Table
+    event_date = user_event_pin.ticket.event.date
+
+    #Get Event Venue
+    venue= user_event_pin.ticket.event.event_venue
+
+    #Get Event Logo
+    event_logo = user_event_pin.ticket.event.event_logo
+    
+
+    #get Ticket Price through ticket Table
+    ticket_price = user_event_pin.ticket.price
+
+    #Get Guest Drinks
+    guest_drinks = Drink.objects.get(user=request.user)
+
+    drinks = guest_drinks.guest_drink
+
+    context = {
+        'pin':guest_pin,
+        'event':event,
+        'event_date':event_date,
+        'event_logo':event_logo,
+        'venue':venue,
+        'ticket_price':ticket_price,
+        'drinks':drinks,
+        
+    }
+
+    return render(request, 'user/confirmation.html', context)
 
     

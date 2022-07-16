@@ -1,0 +1,202 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %} Confirmation | {{ user.profile.surname }} {% endblock %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% load humanize %}
+
+
+{% block content %}
+
+<!-- Left sidebar menu start -->
+{% include 'partials/_LeftSideBar.html' %}
+<!-- Left sidebar menu end -->
+
+<main class="ttr-wrapper">
+    <div class="container-fluid">
+        <div class="db-breadcrumb">
+            <h4 class="breadcrumb-title" style="color: rgb(4, 149, 16);">Event Registration Confirmation.</h4>
+            
+        </div>	
+        <div class="row">
+            <!-- Your Profile Views Chart -->
+            <div class="col-lg-12 m-b30">
+                <div class="container">
+                    <div class="row my-4">
+
+                      <!--Alert Message Division-->
+                      {% include 'partials/_alerts.html' %}
+                      <!--Alert Message Division Ends-->
+
+                      <!--Notice Board Division-->
+                     
+                      <!--Notice Board Division Ends-->
+
+                        <div class="col-md-12">
+                           <div class="card">
+                               <div class="card-header bg-info text-white text-center">
+                                EVENT GATE PASS PREVIEW
+                               </div>
+                               
+                               <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <span class="h5" style="color: green;">Profile Information</span><a class="btn btn-success ml-5" href="{% url 'user-profile-update' %}">Edit</a>
+                                        <hr>
+                                        <table class="table bg-white table-borderless">
+                                            <tbody>
+                                              <tr>
+                                                <th scope="row">Surname</th>
+                                                <td>{{user.profile.surname}}</td>
+                                              </tr>   
+                                              <tr>
+                                                <th scope="row">Othernames:</th>
+                                                <td>{{user.profile.othernames}}</td>                                   
+                                              </tr>  
+                                              <tr>
+                                                <th scope="row">Phone:</th>
+                                                <td>{{user.profile.phone}}</td>                                   
+                                              </tr>  
+                                              <tr>
+                                                <th scope="row">Email:</th>
+                                                <td>{{user.profile.gender}}</td>                                   
+                                              </tr>   
+                                               
+                                            </tbody>
+                                        </table>
+                                         
+                                    </div>
+                                      <div class="col-md-2 mt-5">
+                                          <img class="img-thumbnail" width="170" height="200" src="{{ user.profile.image.url }}" alt="applicant picture">
+                                      </div>
+                                    </div>
+
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <span class="h4" style="color: green;">Event Details</span>
+                                          <hr>
+                                          <table class="table bg-white table-borderless">
+                                              <tbody>
+                                                <tr>
+                                                  <th scope="row">Event Name:</th>
+                                                  <td>{{ event }}</td>
+                                                </tr>   
+                                                <tr>
+                                                  <th scope="row">Event Date:</th>
+                                                  <td>{{ event_date }}</td>                                   
+                                                </tr>
+                                                <tr>
+                                                  <th scope="row">Event Venue:</th>
+                                                  <td>{{ venue }}</td>                                   
+                                                </tr>
+                                                <tr>
+                                                  <th scope="row">Event Logo:</th>
+                                                  <td><img  width="100" height="100" src="{{ event_logo.url }}" alt="event logo"></td>                                   
+                                                </tr>    
+                                                <tr>
+                                                  <th scope="row">Ticket PIN:</th> 
+                                                  <td>{{ pin }}</td>                                   
+                                                </tr>
+
+                                                <tr>
+                                                  <th scope="row">Ticket Price:</th> 
+                                                  <td>N{{ ticket_price | intcomma }}</td>                                   
+                                                </tr> 
+
+                                                 
+                                                
+                                                
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+  
+                                     
+                                          
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <span class="h4" style="color: green;">Drinks Preference</span>
+                                                  <hr>
+                                                  <table class="table bg-white table-borderless">
+                                                      <tbody>
+                                                        <tr>
+                                                          <th scope="row">Preferred Drinks:</th>
+                                                          <td></td>
+                                                        </tr>   
+                                                        <tr>
+                                                          <th scope="row">Drinks:</th>
+                                                          <td>{{drinks}}</td>                                   
+                                                        </tr>  
+                                                        <!-- <tr>
+                                                          <th scope="row">Account Name:</th>
+                                                          <td>{{user.bankdetails.name}}</td>                                   
+                                                        </tr>  
+                                                        <tr>
+                                                          <th scope="row">Bank Branch:</th>
+                                                          <td>{{user.bankdetails.branch}}</td>                                   
+                                                        </tr>    -->
+                                                        
+                                                        
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+                                          </div>
+            
+                                          <div class="row">
+                                            <div class="col-md-12">
+                                                <span class="h4" style="color: red;">Confirmation and Submission</span>
+                                                <hr>
+                                                <table class="table bg-white table-borderless">
+                                                    <tbody>
+            
+                                                    <form method="POST" enctype="multipart/form-data">
+                                                      {% csrf_token %}
+                                                      <div class="form-row">
+
+                                                        <div class="form-group col-md-12 mb-0">
+                                                          <p>
+                                                         <b style="color: rgb(143, 106, 14);">{{user.profile.surname}} {{user.profile.othernames}}</b>   , Hereby Confirm 
+                                                            that the information supplied in this Event Registration above are a true reflection
+                                                            of my Person. Note that you will not be able to edit
+                                                            your information once your Registrations submited.
+                                                          </p>
+                                                        </div>
+                            
+                                                       
+                                                      </div>
+                            
+                                                      <input type="submit" class="btn" value="Submit Application">
+                                                  </form>
+                                                      
+                                                      
+                                                    </tbody>
+                                                </table>  
+                                            </div>
+                                          
+                                          </div>
+                                      </div>
+                                  
+                                 
+
+                               </div>
+                           </div>
+                        </div>
+                        
+                       
+                     
+                        
+                     
+                
+                    </div>
+                  </table>
+                </div>
+            </div>
+            <!-- Your Profile Views Chart END-->
+        </div>
+    </div>
+</main>
+
+{% endblock %}

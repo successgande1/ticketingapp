@@ -55,11 +55,18 @@
                                       {{ profile_form.othernames|as_crispy_field }}
                                     </div>
                                 </div>
-
                                 <div class="form-row">
-                                    <div class="form-group col-md-6 mb-0">
-                                      {{ profile_form.phone|as_crispy_field }}
-                                    </div>
+                                  <div class="form-group col-md-6 mb-0">
+                                    {{ profile_form.phone|as_crispy_field }}
+                                  </div>
+
+                                  <div class="form-group col-md-6 mb-0">
+                                    {{ profile_form.gender|as_crispy_field }}
+                                  </div>
+                                 
+                              </div>
+                                <div class="form-row">
+                                    
 
                                     <div class="form-group col-md-6 mb-0">
                                       {{ profile_form.image }}
@@ -69,7 +76,7 @@
 
                                 
     
-                                <input class="btn btn-info" type="submit" value="update">
+                                <input class="btn btn-info mt-3" type="submit" value="update">
                             </form>
                         </div>
                         

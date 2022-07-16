@@ -1,8 +1,6 @@
 
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
--->
+{% load static %}
+
 <!doctype html>
 <html lang="zxx">
 
@@ -10,13 +8,13 @@ Author URL: http://w3layouts.com
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Festivity An Entertainment Category Bootstrap Responsive Web Template | Services :: W3Layouts </title>
+  <title>Festival Web Application | About : SUCCESSGANDE ICT Solution Festival Management Application  </title>
   <link href="//fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
     rel="stylesheet">
   <!-- Template CSS -->
-  <link rel="stylesheet" href="assets/css/style-starter.css">
+  <link rel="stylesheet" href="{% static 'pages/assets/css/style-starter.css' %}">
   <!-- aos CSS -->
-  <link rel="stylesheet" href="assets/css/aos.css">
+  <link rel="stylesheet" href="{% static 'pages/assets/css/aos.css' %}">
 </head>
 
 <body>
@@ -24,7 +22,7 @@ Author URL: http://w3layouts.com
   <header id="site-header" class="w3lhny-head fixed-top">
     <div class="container">
       <nav class="navbar navbar-expand-lg stroke px-0">
-        <h1> <a class="navbar-brand" href="index.html">
+        <h1> <a class="navbar-brand" href="{% url 'pages-index' %}">
             <span class="sublog">Fest</span>ivity
           </a></h1>
         <!-- if logo is image enable this   
@@ -41,17 +39,26 @@ Author URL: http://w3layouts.com
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav mx-lg-auto">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'pages-index' %}">Home </a>
             </li>
-            <li class="nav-item  active">
-              <a class="nav-link" href="about.html">About</a>
+            <li class="nav-item ">
+              <a class="nav-link" href="{% url 'pages-about' %}">About</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="services.html">Services</a>
+              <a class="nav-link" href="{% url 'pages-services' %}">Services<span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="{% url 'pages-contact' %}">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pages-buy-tickets' %}">Buy Ticket</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pin-activation' %}">Activate PIN</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user-login' %}">Login</a>
             </li>
             <!--/search-right-->
             <nav class="ml-lg-5">
@@ -91,7 +98,7 @@ Author URL: http://w3layouts.com
       <div class="container pt-lg-5 pt-md-3 p-lg-4 pb-md-3 my-lg-3">
         <h2 class="title pt-5">Services Pages</h2>
         <ul class="breadcrumbs-custom-path mt-3 text-center">
-          <li><a href="index.html">Home</a></li>
+          <li><a href="{% url 'pages-index' %}">Home</a></li>
           <li class="active"><span class="fa fa-arrow-right mx-2" aria-hidden="true"></span> Pages </li>
           <li class="active"><span class="fa fa-arrow-right mx-2" aria-hidden="true"></span> Services </li>
         </ul>
@@ -115,15 +122,15 @@ Author URL: http://w3layouts.com
               ultrices in ligula. Semper at tempufddfel. Lorem ipsum dolor sit amet
               elit. Non quae, fugiat nihil ad. Lorem ipsum dolor sit amet. Lorem ipsum init
               dolor sit.</p>
-            <a class="btn btn-primary btn-style mt-md-5 mt-4" href="about.html">Read More</a>
+            <a class="btn btn-primary btn-style mt-md-5 mt-4" href="{% url 'pages-about' %}">Read More</a>
           </div>
           <div class="col-lg-7">
             <div class="row">
               <div class="col-6 position-relative">
-                <img src="assets/images/ab1.jpg" alt="" class="radius-image img-fluid">
+                <img src="{% static 'pages/assets/images/ab1.jpg' %}" alt="" class="radius-image img-fluid">
               </div>
               <div class="col-6 position-relative">
-                <img src="assets/images/ab2.jpg" alt="" class="radius-image img-fluid">
+                <img src="{% static 'pages/assets/images/ab2.jpg' %}" alt="" class="radius-image img-fluid">
               </div>
             </div>
           </div>
@@ -220,7 +227,7 @@ Author URL: http://w3layouts.com
           </ul>
         </div>
         <div class="col-lg-6 bottom-right-grids mt-lg-0 mt-sm-5 mt-4">
-          <img src="assets/images/b3.jpg" alt="" class="radius-image img-fluid">
+          <img src="{% static 'pages/assets/images/b3.jpg' %}" alt="" class="radius-image img-fluid">
         </div>
       </div>
     </div>
@@ -228,57 +235,7 @@ Author URL: http://w3layouts.com
   <!-- footer7 block -->
   <section class="w3l-footer7">
     <div class="footer7 py-5">
-      <div class="container py-lg-3">
-        <div class="footer-destinations mb-3 text-center">
-          <h5>The life of the party. The sound of celebration.</h5>
-        </div>
-        <div class="d-grid grid-col-3 footer-top7">
-          <div class="footer-list7 mt-4">
-            <h6 class="footer-title7">Quick links</h6>
-            <ul>
-              <li><a href="about.html">About</a></li>
-              <li><a href="services.html">Services</a></li>
-              <li><a href="#url">Privacy & Policy</a></li>
-              <li><a href="contact.html">Map & Location</a></li>
-            </ul>
-          </div>
-          <div class="footer-list7 mt-4">
-
-            <h6 class="footer-title7">Newsletter sign up</h6>
-            <form action="#" method="post" class="footer-newsletter">
-              <input type="email" name="" placeholder="Email address" required />
-              <button class="btn btn-style">Subscribe</button>
-            </form>
-
-          </div>
-
-          <div class="footer-list7 mt-4">
-            <h6 class="footer-title7">Call Us:</h6>
-            <ul class="phone-numbers">
-              <li><a href="tel:+123456790"> +123456790</a></li>
-              <li><a href="tel:+123456791"> +123456791</a></li>
-            </ul>
-            <h6 class="footer-title7">Connect with us</h6>
-            <div class="main-social-footer7">
-              <a href="#url" title="Facebook" class="footer-fb"><span class="fa fa-facebook"
-                  aria-hidden="true"></span></a>
-              <a href="#url" title="Twitter" class="footer-tw"><span class="fa fa-twitter"
-                  aria-hidden="true"></span></a>
-              <a href="#url" title="Google Plus" class="footer-gg"><span class="fa fa-google-plus"
-                  aria-hidden="true"></span></a>
-              <a href="#url" title="Linkedin" class="footer-lin"><span class="fa fa-linkedin"
-                  aria-hidden="true"></span></a>
-              <a href="#url" title="Pinterest" class="footer-pin"><span class="fa fa-pinterest"
-                  aria-hidden="true"></span></a>
-            </div>
-          </div>
-        </div>
-        <div class="copy-right-hny text-center">
-          <p>© 2021 Festivity. All rights reserved.Design by <a href="https://w3layouts.com/" target="_blank">
-              W3Layouts</a>
-          </p>
-        </div>
-      </div>
+      {% include 'partials/_pages_footer.html' %}
       <!-- //footer -->
       <!-- move top -->
       <button onclick="topFunction()" id="movetop" title="Go to top">
@@ -319,10 +276,10 @@ Author URL: http://w3layouts.com
   </section>
   <!-- //footer7 block -->
   <!-- Template JavaScript -->
-  <script src="assets/js/jquery-3.3.1.min.js"></script>
-  <script src="assets/js/theme-change.js"></script>
+  <script src="{% static 'pages/assets/js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'pages/assets/js/theme-change.js' %}"></script>
   <!-- owlcarousel -->
-  <script src="assets/js/owl.carousel.js"></script>
+  <script src="{% static 'pages/assets/js/owl.carousel.js' %}"></script>
   <!-- script for tesimonials carousel slider -->
   <script>
     $(document).ready(function () {
@@ -347,8 +304,8 @@ Author URL: http://w3layouts.com
   </script>
   <!-- //script for tesimonials carousel slider -->
   <!-- /aos -->
-  <script src="assets/js/aos.js"></script>
-  <script src="assets/js/aosindex.js"></script>
+  <script src="{% static 'pages/assets/js/aos.js' %}"></script>
+  <script src="{% static 'pages/assets/js/aosindex.js' %}"></script>
   <!-- //aos -->
   <!--/MENU-JS-->
   <script>
@@ -387,7 +344,7 @@ Author URL: http://w3layouts.com
       }
     });
   </script>
-  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.min.js' %}"></script>
 
 </body>
 

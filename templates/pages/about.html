@@ -10,7 +10,7 @@ Author URL: http://w3layouts.com
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Festivity An Entertainment Category Bootstrap Responsive Web Template | About :: W3Layouts </title>
+  <title>Festivity And Entertainment Web Application for Managing Events | About :: SUCCESSGANDE ICT Solutions </title>
   <link href="//fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
     rel="stylesheet">
   <!-- Template CSS -->
@@ -47,11 +47,20 @@ Author URL: http://w3layouts.com
               <a class="nav-link" href="{% url 'pages-about' %}">About<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="services.html">Services</a>
+              <a class="nav-link" href="{% url 'pages-services' %}">Services</a>
             </li>
  
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="{% url 'pages-contact' %}">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pages-buy-tickets' %}">Buy Ticket</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'pin-activation' %}">Activate PIN</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user-login' %}">Login</a>
             </li>
                   <!--/search-right-->
                   <nav class="ml-lg-5">
@@ -273,57 +282,7 @@ Author URL: http://w3layouts.com
   <!-- footer7 block -->
   <section class="w3l-footer7">
     <div class="footer7 py-5">
-      <div class="container py-lg-3">
-        <div class="footer-destinations mb-3 text-center">
-          <h5>The life of the party. The sound of celebration.</h5>
-        </div>
-        <div class="d-grid grid-col-3 footer-top7">
-          <div class="footer-list7 mt-4">
-            <h6 class="footer-title7">Quick links</h6>
-            <ul>
-              <li><a href="about.html">About</a></li>
-              <li><a href="services.html">Services</a></li>
-              <li><a href="#url">Privacy & Policy</a></li>
-              <li><a href="contact.html">Map & Location</a></li>
-            </ul>
-          </div>
-          <div class="footer-list7 mt-4">
-
-            <h6 class="footer-title7">Newsletter sign up</h6>
-            <form action="#" method="post" class="footer-newsletter">
-              <input type="email" name="" placeholder="Email address" required />
-              <button class="btn btn-style">Subscribe</button>
-            </form>
-
-          </div>
-
-          <div class="footer-list7 mt-4">
-            <h6 class="footer-title7">Call Us:</h6>
-            <ul class="phone-numbers">
-              <li><a href="tel:+123456790"> +123456790</a></li>
-              <li><a href="tel:+123456791"> +123456791</a></li>
-            </ul>
-            <h6 class="footer-title7">Connect with us</h6>
-            <div class="main-social-footer7">
-              <a href="#url" title="Facebook" class="footer-fb"><span class="fa fa-facebook"
-                  aria-hidden="true"></span></a>
-              <a href="#url" title="Twitter" class="footer-tw"><span class="fa fa-twitter"
-                  aria-hidden="true"></span></a>
-              <a href="#url" title="Google Plus" class="footer-gg"><span class="fa fa-google-plus"
-                  aria-hidden="true"></span></a>
-              <a href="#url" title="Linkedin" class="footer-lin"><span class="fa fa-linkedin"
-                  aria-hidden="true"></span></a>
-              <a href="#url" title="Pinterest" class="footer-pin"><span class="fa fa-pinterest"
-                  aria-hidden="true"></span></a>
-            </div>
-          </div>
-        </div>
-        <div class="copy-right-hny text-center">
-          <p>© 2021 Festivity. All rights reserved.Design by <a href="" target="_blank">
-              SUCCESSGANDE ICT Solutions</a>
-          </p>
-        </div>
-      </div>
+      {% include 'partials/_pages_footer.html' %}
       <!-- //footer -->
       <!-- move top -->
       <button onclick="topFunction()" id="movetop" title="Go to top">

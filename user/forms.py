@@ -44,8 +44,8 @@ class UserUpdateForm(forms.ModelForm):
 
 # #Update Profile Form
 class ProfileUpdateForm(forms.ModelForm):
-    surname = forms.CharField(label='Surname:', widget=forms.TextInput(attrs={'placeholder': 'Applicant\'s Inherited Family Name.'}))
-    othernames = forms.CharField(label='Other Names:', widget=forms.TextInput(attrs={'placeholder': 'Applicant\'s First and Middle Name(s).'}))
+    surname = forms.CharField(label='Surname:', widget=forms.TextInput(attrs={'placeholder': 'Guest\'s Inherited Family Name.'}))
+    othernames = forms.CharField(label='Other Names:', widget=forms.TextInput(attrs={'placeholder': 'Guest\'s Personal Name(s).'}))
     # phone = PhoneNumberField(
     #     widget = PhoneNumberPrefixWidget(initial="NG")
     # )
@@ -54,7 +54,7 @@ class ProfileUpdateForm(forms.ModelForm):
     image = forms.ImageField(required=True)
     class Meta:
         model = Profile
-        fields = ['surname', 'othernames', 'phone', 'image'] 
+        fields = ['surname', 'othernames', 'phone','gender', 'image'] 
 
 #Date Picket Widgets for date field for Event Form
 class EventDateField(forms.DateInput):
@@ -91,6 +91,13 @@ class PinActivationForm(forms.Form):
 
     def clean_pin(self):
         form = self.cleaned_data['pin']
+
+class DrinkForm(forms.ModelForm):
+    
+
+    class Meta:
+        model = Drink
+        exclude = ['user']
 
         
 

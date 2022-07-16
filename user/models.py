@@ -7,6 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from random import randint
 import uuid
 from django.contrib.auth.models import User, Group
+from multiselectfield import MultiSelectField
 
 # Create your models here.
 
@@ -25,6 +26,8 @@ GENDER = (
 	('Male', 'Male'),
 	('Female', 'Female'),
 )
+
+
 
 
 class Profile(models.Model):
@@ -48,7 +51,7 @@ class Profile(models.Model):
             img.save(self.image.path)
  
     def __str__(self):
-        return f'{self.staff.username}-Profile'
+        return f'{self.user.username}-Profile'
 
 
 
@@ -62,7 +65,7 @@ class Event(models.Model):
     added_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.event_name} - Event"
+        return f"{self.event_name}"
 
     #Prepare the url path for the Model
     def get_absolute_url(self):
@@ -95,7 +98,7 @@ class Pin(models.Model):
     #Save Reference Number
     def save(self, *args, **kwargs):
          self.reference == str(uuid.uuid4())
-         super().save(*args, **kwargs)
+         super().save(*args, **kwargs) 
 
     def __unicode__(self):
         return self.ticket
@@ -104,7 +107,19 @@ class Pin(models.Model):
         unique_together = ["ticket", "value"]
 
     def __str__(self):
-        return f"{self.ticket} | {self.value}"
+        return f"{self.ticket}"
+
+    def get_absolute_url(self):
+        return reverse("pin-detail", args=[str(self.id)])
+
+class Guest(models.Model):
+    guest_name = models.CharField(max_length=30, null=True)
+    pin = models.CharField(max_length=6, null=True)
+    
+
+    def __str__(self):
+        return f"{self.guest_name}" 
+
 
 
 
@@ -119,6 +134,27 @@ class Pin(models.Model):
     #         output_size = (150, 250)
     #         img.thumbnail(output_size)
     #         img.save(self.image.path)
+
+
+
+class Drink(models.Model):
+    DRINK_CHOICES = (
+        ('More Beer', 'More Beer'),
+        ('Bottle Water', 'Bottle Water'),
+        ('Malt', 'Malt'),
+        ('Heineken', 'Heineken'),
+        ('Trophy lager', 'Trophy lager'),
+        ('Hero', 'Hero'),
+        ('Goldberg', 'Goldberg'),
+        ('Gulder', 'Gulder'),
+        ('STAR Lager Beer', 'STAR Lager Beer'),
+        ('33 Export Lager Beer', '33 Export Lager Beer'),
+        ('Tiger Lager Beer', 'Tiger Lager Beer'),
+        ('Life Lager Beer', 'Life Lager Beer'),
+    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null = True)
+    guest_drink = MultiSelectField(choices = DRINK_CHOICES, max_length=255)
+
+  
+
     
-
-

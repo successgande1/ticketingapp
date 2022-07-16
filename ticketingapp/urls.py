@@ -19,16 +19,23 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from user import views as user_views
+from pages import views as pages_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls')),
+    path('about/', pages_views.about, name = 'pages-about'),
+    path('services/', pages_views.services, name = 'pages-services'),
+    path('contact/', pages_views.contact, name = 'pages-contact'), 
+    path('buy/ticket/', pages_views.buy_ticket, name ='pages-buy-tickets'), 
     path('users/', include('dashboard.urls')),
     path('register/', user_views.register, name = 'user-register'),
     path('guest/register/', user_views.register_guest, name = 'register-guest'),
-    path('', auth_views.LoginView.as_view(template_name='user/login.html'), name = 'user-login'),
+    path('login/', auth_views.LoginView.as_view(template_name='user/login.html'), name = 'user-login'),
     path('profile/', user_views.profile, name = 'user-profile'),
     path('profile/update/', user_views.profile_update, name = 'user-profile-update'),
+    path('guest/add/drink/', user_views.Guest_Add_Drink, name = 'user-add-drink'), 
+    path('guest/confirm/register/', user_views.guest_confirmation, name = "guest-confirmation"),
     path('event/add/', user_views.EventCreateView.as_view(), name = 'create-event'),
     path('event/list/', user_views.EventListView.as_view(), name='event-list'),
     path('ticket/add/', user_views.TicketCreateView.as_view(), name = 'create-ticket'),

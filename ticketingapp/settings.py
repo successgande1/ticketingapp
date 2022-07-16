@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'crispy_forms',
     'django.contrib.humanize',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [

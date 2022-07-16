@@ -1,0 +1,273 @@
+{% extends 'dashboard_base.html' %}
+
+{% block title %} Slip | {{ user.username }} {% endblock %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<!-- Left sidebar menu start -->
+{% include 'partials/_LeftSideBar.html' %}
+<!-- Left sidebar menu end -->
+
+<main class="ttr-wrapper">
+    <div class="container-fluid">
+        <div class="db-breadcrumb">
+            <h4 class="breadcrumb-title" style="color: rgb(4, 149, 16);">{{user.username}} Application Slip</h4>
+            
+        </div>	
+        <div class="row">
+            <!-- Your Profile Views Chart -->
+            <div class="col-lg-12 m-b30">
+                <div class="container">
+                    <div class="row my-4">
+
+                      <!--Alert Message Division-->
+                      {% include 'partials/_alerts.html' %}
+                      <!--Alert Message Division Ends-->
+
+                      <!--Notice Board Division-->
+                     
+                      <!--Notice Board Division Ends-->
+
+                        <div class="col-md-12" id="slip">
+                           <div class="card">
+                               <div class="card-header bg-info text-white text-center" style="text-align: center;">
+                               2022 WASU SCHOLARSHIP APPLICATION SLIP
+                               </div>
+                               
+                               <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                      <div class="col-md-2 mt-2 passport">
+                                        <img class="img-thumbnail" width="170" height="200" src="{{ user.profile.image.url }}" alt="applicant picture">
+                                      </div>
+
+                                        
+                                        <hr>
+                                        <table class="table bg-white table-borderless">
+                                            <tbody>
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">Ref. No:</th>
+                                                <td>{{ user.submitted.application }}</td>
+                                              </tr> 
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">Surname</th>
+                                                <td>{{user.profile.surname}}</td>
+                                              </tr>   
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">Othernames:</th>
+                                                <td>{{user.profile.othernames}}</td>                                   
+                                              </tr>  
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">Phone:</th>
+                                                <td>{{user.profile.phone}}</td>                                   
+                                              </tr>  
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">Email:</th>
+                                                <td>{{user.email}}</td>                                   
+                                              </tr>   
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">Nation:</th>
+                                                <td>{{user.profile.nation}}</td>                                   
+                                              </tr> 
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">State/Province:</th>
+                                                <td>{{user.profile.state}}</td>                                   
+                                              </tr>  
+                                              
+                                              
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">Phone Number:</th>
+                                                <td>{{user.profile.phone}}</td>                                   
+                                              </tr>                
+                                            </tbody>
+                                        </table>
+                                         
+                                    </div>
+                                      
+                                    </div>
+  
+                                      <div class="card-body">
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <span class="h4" style="color: green;">Education</span>
+                                                  <hr>
+                                                  <table class="table bg-white table-borderless">
+                                                      <tbody>
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Institution Type:</th>
+                                                          <td>{{user.education.qualification}}</td>
+                                                        </tr>   
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Name of Institution:</th>
+                                                          <td>{{user.education.instition}}</td>                                   
+                                                        </tr>  
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Admission/Matriculation Number:</th>
+                                                          <td>{{user.education.matnumber}}</td>                                   
+                                                        </tr>  
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Referee:</th>
+                                                          <td>{{user.education.reference}}</td>                                   
+                                                        </tr>   
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Referee Phone Number:</th>
+                                                          <td>{{user.education.refphone}}</td>                                   
+                                                        </tr> 
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Reason for the Scholarship:</th>
+                                                          <td>{{user.education.reasons}}</td>                                   
+                                                        </tr>  
+                                                        
+                                                                        
+                                                      </tbody>
+                                                    </table>
+                                                    
+                                              </div>
+                                              
+                                          </div>
+                                          <div class="row">
+                                              <div class="col-md-12">
+                                                  <span class="h4" style="color: green;">Bank Details</span>
+                                                  <hr>
+                                                  <table class="table bg-white table-borderless">
+                                                      <tbody>
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Bank Name:</th>
+                                                          <td>{{user.bankdetails.bank}}</td>
+                                                        </tr>   
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Account Number:</th>
+                                                          <td>{{user.bankdetails.account}}</td>                                   
+                                                        </tr>  
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Account Name:</th>
+                                                          <td>{{user.bankdetails.name}}</td>                                   
+                                                        </tr>  
+                                                        <tr>
+                                                          <th scope="row" style="text-align: left;">Bank Branch:</th>
+                                                          <td>{{user.bankdetails.branch}}</td>                                   
+                                                        </tr>   
+                                                        
+                                                        
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+                                          </div>
+            
+                                          <div class="row">
+                                            <div class="col-md-12">
+                                                <span class="h4" style="color: red;">Note:</span>
+                                                <hr>
+                                                <table class="table bg-white table-borderless">
+                                                    <tbody>
+            
+                                                    
+                                                      
+                                                      <div class="form-row">
+
+                                                        <div class="form-group col-md-12 mb-0">
+                                                          <p>
+                                                         <b style="color: rgb(143, 106, 14);">{{user.profile.surname}} {{user.profile.othernames}}.</b> Please, 
+                                                            ensure to keep this Slip Safe. Also Note that only applicants who paid for their Processing
+                                                            Fee would be considered for Scholarship Award.
+                                                          </p>
+                                                          
+                                                          <p>
+                                                           <b style="color:red;"> For Nigerian Students Only:</b> Any Applicant with Verve Card (Not Visa or MasterCard) should use any of the following options
+                                                            for their payment:
+                                                            <ul style="color:blue; font-weight:bold;">
+                                                              <li>Wema Bank
+                                                                (Account Number: 7812755422, Account Name: WASU SCHOLARSHIPS)
+                                                              </li>
+                                                              <li>
+                                                                Sterling Bank (Account Number: 8222981508, Account Name: WASU SCHOLARSHIPS)
+                                                              </li>
+                                                            </ul>
+                                                          </p>
+                                                          <p>
+                                                            <b style="color:red;">NOTE:</b>  Payment into  the above accounts can only be processed via POS, Transfer or Card using
+                                                            N609/$1 flat rate for the following Scholarship Categories:
+                                                            <ol style="color:blue; font-weight:bold;">
+                                                              <li>Secondary School Applicants = N609 x $2 = N1,218.00</li>
+                                                              <li>Undergraduate Applicants = N609 x $5 = N3,045.00</li>
+                                                              <li>Post Graduate Applicants = N609 x $7 = N4,263.00</li>
+                                                            </ol>
+                                                          </p>
+
+                                                        </div>
+                            
+                                                        
+                                                      </div>
+
+                                                      <script type="text/javascript">
+        
+                                                        function codespeedy(){
+                                                          var print_div = document.getElementById("slip");
+                                                    var print_area = window.open();
+                                                    print_area.document.write(print_div.innerHTML);
+                                                    print_area.document.close();
+                                                    print_area.focus();
+                                                    print_area.print();
+                                                    print_area.close();
+                                                    // This is the code print a particular div element
+                                                        }
+                                                      </script>
+                                                      
+                                                      <th>
+                                                      <form >
+                                                      <a class="btn btn-success" target="_blank" href="{% url 'print-slip' %}">Print Slip</a>
+                                                    </form>
+                                                  </th>
+                                                    <td>
+
+                                                      {% if candidate_edu == "Secondary School" %}
+                                                      
+                                                      <a class="btn btn-success" href="https://flutterwave.com/pay/secondaryschoolcategorydollar">Pay Processing Fee</a>
+
+                                                      {% elif candidate_edu == "Undergraduate"  %}
+
+                                                      <a class="btn btn-success" href="https://flutterwave.com/pay/udergraduatecategorydollar">Pay Processing Fee</a>
+
+                                                      {% else %}
+
+                                                      <a class="btn btn-success" href="https://flutterwave.com/pay/postgraduatedollar">Pay Processing Fee</a>
+
+                                                      {% endif %}
+                                                      
+                                                    </td>
+                                                      
+                                                    </tbody>
+                                                </table>  
+                                                
+                                            </div>
+                                          
+                                          </div>
+                                      </div>
+                                  
+                                 
+
+                               </div>
+                           </div>
+                        </div>
+                        
+                       
+                     
+                        
+                     
+                
+                    </div>
+                  </table>
+                </div>
+            </div>
+            <!-- Your Profile Views Chart END-->
+        </div>
+    </div>
+</main>
+
+{% endblock %}

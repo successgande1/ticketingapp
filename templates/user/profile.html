@@ -64,13 +64,13 @@
                                 Information
                             </div>
                             <div class="card-body">
-                                    <h5 class="my-4 mt-0">Application Instruction.</h5>
+                                    <h5 class="my-4 mt-0">Registration Instruction.</h5>
                                     <p>
                                       <ul style="font-size:1rem ; font-family:Verdana, Geneva, Tahoma, sans-serif; color:red;">
-                                        <li>Make Sure you Update Your Profile Information before you Start Filling other Details.</li>
-                                        <li>Passport File Size must be less than 5MB, Jpg, Jpeg, Png File Formats only.</li>
-                                        <li>Records would NOT edited after Confirmation/Submission of Application.</li>
-                                        <li>Scholarship Processing Fee is NECESSARY for Scholarship Award.</li>
+                                        <li>Update Your Surname, Othernames, Phone Number and Passport First.</li>
+                                        <li>Make Proposal of the Drinks you Intend to take on the Event.</li>
+                                        <li>Print Your Event Gate Pass and Come Along with it on the day of the Event</li>
+                                        <li>Your Photo and Phone Number shall be used to Validate you at Entrance.</li>
                                       </ul>
                                     </p>
 
@@ -116,13 +116,14 @@
                                                 <td>{{user.profile.phone}}</td>                                   
                                               </tr>  
                                               <tr>
+                                                <th scope="row">Gender:</th>
+                                                <td>{{user.profile.gender}}</td>                                   
+                                              </tr> 
+                                              <tr>
                                                 <th scope="row">Email:</th>
                                                 <td>{{user.email}}</td>                                   
                                               </tr>   
-                                              <tr>
-                                                <th scope="row">Nation:</th>
-                                                <td>{{user.profile.nation}}</td>                                   
-                                              </tr>                 
+                                                             
                                             </tbody>
                                           </table>
                                     </div>
