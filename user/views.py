@@ -14,6 +14,10 @@ from django.core import paginator
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
+from datetime import *
+
+from django.db.models.functions import TruncMonth
+from django.db.models import Count, Sum
 
 # def login(request):
 #     page_title = "User Login"
@@ -49,11 +53,29 @@ def register(request):
 
 @login_required(login_url='user-login')
 def profile(request):
-    #count submited Applications
+    #count Registered Guests
+    reservations = Guest.objects.all().count()
+    #count Number of Ticket Pins activated
+    total_pin_activated = Ticket.objects.filter(pin__status="Activated").count()
+
+    #Total by events
+    total_events = Event.objects.all().count()
+    
+    #Sum Ticket activated
+    amount_sold_pins = Ticket.objects.filter(pin__status="Activated").aggregate(
+    total=Sum('price'))['total']
+    
+
+    context = {
+        'guest':reservations,
+        'total':amount_sold_pins,
+        'total_pin_activated':total_pin_activated,
+        'total_events':total_events,
+    }
     
     
  
-    return render(request, 'user/profile.html')
+    return render(request, 'user/profile.html', context)
    
 #Update Profile Method
 @login_required(login_url='user-login')
@@ -126,7 +148,7 @@ class TicketListView(ListView):
 	queryset = Ticket.objects.all()
 	context_object_name = 'tickets'
     #paginate_by  = 10
-
+ 
 #Ticket Detail
 class TicketDetail(LoginRequiredMixin, DetailView):
     template_name = 'user/ticket_detail.html'
@@ -154,39 +176,51 @@ class PinListView(ListView):
 	queryset = Pin.objects.all()
 	context_object_name = 'pins'
 
-#Pin Activation View
+
+# #Pin Activation View
 def pin_activation(request):
 
     if request.method == "POST":
         
         #Create new form with name form
         form = PinActivationForm(request.POST)
-
+        #Get User Pin Value from Form
+        pin_value = form['pin'].value()
         #Check if the the form has valid data in it
         if form.is_valid():
+            try:
+                #Get user Pin with the one in the Database
+                check_pin_status = Pin.objects.get(value=pin_value)
+            except Pin.DoesNotExist:
+                messages.error(request, f'{pin_value} Does Not Exist')
+                return redirect('pin-activation')
+            else:
 
-            #Check the status of the user Pin with the one in the Database
-            check_pin_status = Pin.objects.filter(value=form['pin'].value(), status='Not Activated')
-
-            #Check if the PIN is correct and NOT ACTIVATED
-            if check_pin_status:
-
-                #Update the User Pin with a new status of Activated
-                Pin.objects.filter(value=form['pin'].value()).update(status='Validated')
-                #Message the User
-                messages.success(request, 'Pin Validated Successfully')
-                #Redirect the user to register for seat
-                return redirect('register-guest')
-            #Check filter the DB where the PIN status is Validated
-            elif Pin.objects.filter(value=form['pin'].value(), status="Validated"):
-                messages.error(request, 'Pin Already Validated. Register for Seat')
-                return redirect('register-guest')
-            #Check Filter PIN in DB where Status is Activated
-            elif  Pin.objects.filter(value=form['pin'].value(), status="Activated"):
-                messages.error(request, "Pin Already Activated, Login.")
-                return redirect('user-login')
-                
-                   
+                #Check if the PIN Correct
+                if check_pin_status:
+                    #Get Pin, Ticket, Event Date
+                    event_date = check_pin_status.ticket.event.date
+                    #Get Current Date
+                    current_date = datetime.now().date()
+                    #Check if Event Date is Passed the Current Date
+                    if event_date < current_date:
+                        messages.error(request, 'Event Has Passed')
+                        return redirect('pin-activation')
+                    else:
+                        #Update the User Pin with a new status of Activated
+                        Pin.objects.filter(value=form['pin'].value()).update(status='Validated')
+                        #Message the User
+                        messages.success(request, 'Pin Validated Successfully')
+                        #Redirect the user to register for seat
+                        return redirect('register-guest')             
+                #Check filter the DB where the PIN status is Validated
+                elif Pin.objects.filter(value=form['pin'].value(), status="Validated"):
+                    messages.error(request, 'Pin Already Validated. Register for Seat')
+                    return redirect('register-guest')
+                #Check Filter PIN in DB where Status is Activated
+                elif  Pin.objects.filter(value=form['pin'].value(), status="Activated"):
+                    messages.error(request, "Pin Already Activated, Login.")
+                    return redirect('user-login')                 
         else:
             messages.error(request, 'Something Went Wrong. Try again')
     else:
@@ -274,6 +308,8 @@ def guest_confirmation(request):
 
     #Get Event Venue
     venue= user_event_pin.ticket.event.event_venue
+    #Ticket Category
+    ticket_category = user_event_pin.ticket.category
 
     #Get Event Logo
     event_logo = user_event_pin.ticket.event.event_logo
@@ -295,6 +331,7 @@ def guest_confirmation(request):
         'venue':venue,
         'ticket_price':ticket_price,
         'drinks':drinks,
+        'ticket_category':ticket_category,
         
     }
 

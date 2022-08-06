@@ -12,9 +12,10 @@ from multiselectfield import MultiSelectField
 # Create your models here.
 
 #Ticket Category Choices
-PAYMENT = (
-    ('RECHARGE PIN', 'RECHARGE PIN'),
-    ('DIRECT PAYMENT', 'DIRECT PAYMENT'),
+PASS = (
+    ('STANDARD PASS', 'STANDARD PASS'),
+    ('GOLD PASS', 'GOLD PASS'),
+    ('PLATINUM PASS', 'PLATINUM PASS'),
 )
 
 ACTIVATION = (
@@ -75,7 +76,7 @@ class Event(models.Model):
 class Ticket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     price = models.PositiveIntegerField()
-    category = models.CharField(max_length=100, choices=PAYMENT, default=None, blank=False, null=False)
+    category = models.CharField(max_length=100, choices=PASS, default=None, blank=False, null=False)
     added_date = models.DateField(auto_now_add=True)
 
     def __str__(self):

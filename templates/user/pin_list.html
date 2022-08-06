@@ -46,18 +46,27 @@
                                       <div style="margin-left:40% ;">
                                         <img  width="70" height="70" src="{{ pin.ticket.event.event_logo.url }}" alt="applicant picture">
                                       </div>
-                                        <span class="h4" style="color: green; margin-left:20%;">{{ pin.ticket.event }}</span>
+                                        
                                         <hr>
                                         <table class="table bg-white table-borderless">
                                             <tbody>
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">Event:</th>
+                                                <td>{{ pin.ticket.event }}</td>                                   
+                                              </tr> 
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">Event Date:</th>
+                                                <td>{{ pin.ticket.event.date }}</td>
+                                              </tr> 
                                               <tr>
                                                 <th scope="row" style="text-align: left;">Ticket Price:</th>
                                                 <td>N{{ pin.ticket.price | intcomma }}</td>
                                               </tr>  
                                               <tr>
-                                                <th scope="row" style="text-align: left;">Event Date:</th>
-                                                <td>{{ pin.ticket.event.date }}</td>
-                                              </tr> 
+                                                <th scope="row" style="text-align: left;">Ticket Type:</th>
+                                                <td>{{ pin.ticket.category}}</td>                                   
+                                              </tr>
+                                             
                                               <tr>
                                                 <th scope="row" style="text-align: left;">Pin Status :</th>
                                                 <td>{{ pin.status }}</td>                                   
@@ -66,14 +75,8 @@
                                                 <th scope="row" style="text-align: left;">Ticket PIN:</th>
                                                 <td>{{ pin.value}}</td>                                   
                                               </tr>  
-                                              <tr>
-                                                <th scope="row" style="text-align: left;">Reference Code:</th>
-                                                <td>{{ pin.reference }}</td>                                   
-                                              </tr> 
-                                              <tr>
-                                                <th scope="row" style="text-align: left;">Created Date:</th>
-                                                <td>{{ pin.added }}</td>                                   
-                                              </tr>                
+                                            
+                                                            
                                             </tbody>
                                           </table>
                                           

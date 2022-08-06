@@ -6,6 +6,7 @@
 
 {% load crispy_forms_tags %}
 
+{% load humanize %}
 
 {% block content %}
 
@@ -35,7 +36,7 @@
                                 <th scope="col">Ticket Name</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">Status</th>
+                                
                                 <th scope="col">Created Date</th>
                                 <th scope="col">Generate Pin</th>
                               </tr> 
@@ -48,9 +49,9 @@
                               <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ ticket.event }}</td>
-                                <td>{{ ticket.price }}</td>
+                                <td>N{{ ticket.price| intcomma}}</td>
                                 <td>{{ ticket.category }}</td>
-                                <td>{{ ticket.status }}</td>
+                               
                                 <td>{{ ticket.added_date }}</td>
                                 <td> <a class="btn btn-primary" href=" {% url 'generate-pin' ticket.id %}">Generate Pin</a></td>
                               </tr>
