@@ -53,7 +53,7 @@
                                 <td>{{ ticket.category }}</td>
                                
                                 <td>{{ ticket.added_date }}</td>
-                                <td> <a class="btn btn-primary" href=" {% url 'generate-pin' ticket.id %}">Generate Pin</a></td>
+                                <td> <a class="btn btn-primary" target="_blank" href=" {% url 'generate-pin' ticket.id %}">Generate Pin</a></td>
                               </tr>
                               {% endfor %}  
                             

@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket PINs</title>
+    
+</head>
+{% load humanize %}
+<body>
+
+    
+    <div class="col-md-12">
+                        
+                            
+        {% if data %}
+       
+          
+          {% for pin in data %}
+
+          <div class="card-body">
+            <div class="row">
+
+                <div class="col-md-12">
+
+                  <!-- Alerts-->	
+                          {% include 'partials/_alerts.html' %}
+                          <!-- Alerts End-->
+
+                  <hr style="margin-bottom: 0.3%;">
+                  <div style="margin-left:40% ;">
+                    <img  width="70" height="70" src="{{ pin.ticket.event.event_logo.url }}" alt="applicant picture">
+                  </div>
+                    
+                    <hr style="margin-top: 0.3%;">
+                    <table class="table bg-white table-borderless">
+                        <tbody>
+                          <tr>
+                            <th scope="row" style="text-align: left;">Event:</th>
+                            <td>{{ pin.ticket.event }}</td>                                   
+                          </tr> 
+                          <tr>
+                            <th scope="row" style="text-align: left;">Event Date:</th>
+                            <td>{{ pin.ticket.event.date }}</td>
+                          </tr> 
+                          <tr>
+                            <th scope="row" style="text-align: left;">Ticket Price:</th>
+                            <td>N{{ pin.ticket.price | intcomma }}</td>
+                          </tr>  
+                          <tr>
+                            <th scope="row" style="text-align: left;">Ticket Type:</th>
+                            <td>{{ pin.ticket.category}}</td>                                   
+                          </tr>
+                         
+                          <tr>
+                            <th scope="row" style="text-align: left;">Pin Status :</th>
+                            <td>{{ pin.status }}</td>                                   
+                          </tr>  
+                          <tr>
+                            <th scope="row" style="text-align: left;">Ticket PIN:</th>
+                            <td>{{ pin.value}}</td>                                   
+                          </tr>  
+                        
+                                        
+                        </tbody>
+                      </table>
+                      
+                </div>
+                
+            </div>
+         </div>
+
+          {% endfor %}  
+        
+      
+        {% else %}  
+        
+        No Records Found
+
+        {% endif %}
+      
+</div>
+    
+      
+</body>
+</html>

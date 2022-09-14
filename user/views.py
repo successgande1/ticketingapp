@@ -1,3 +1,5 @@
+from email import message
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -10,12 +12,16 @@ from django.urls import reverse, reverse_lazy
 from django.http import JsonResponse
 from . models import *
 from . forms import *
+from .process import html_to_pdf 
+from django.template.loader import render_to_string
+from django.views.generic.list import ListView, View
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core import paginator
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from datetime import *
-
+from django.db.models import Q
 from django.db.models.functions import TruncMonth
 from django.db.models import Count, Sum
 
@@ -137,16 +143,26 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
     model = Ticket
     form_class = TicketCreationForm
     template_name = 'user/add_ticket.html'
-    success_url = reverse_lazy('ticket-list')
+    success_url = reverse_lazy('list-ticket')
     
     # def get_success_url(self):
     #     return reverse_lazy('ticket-detail',kwargs={'pk': self.get_object().id})
 
 #Tick List View
-class TicketListView(ListView):
-	template_name = 'user/ticket_list.html'
-	queryset = Ticket.objects.all()
-	context_object_name = 'tickets'
+def Ticket_list(request):
+    #Get Current Date
+    current_date = datetime.now().date()
+    #Filter Tickets whose Event is NOT YET PAST
+    tickets = Ticket.objects.filter(event__date__gte=current_date)
+    context = {
+        'tickets':tickets,
+        'current_date':current_date,
+    }
+    return render(request, 'user/ticket_list.html', context)
+# class TicketListView(ListView):
+# 	template_name = 'user/ticket_list.html'
+# 	queryset = Ticket.objects.all()
+# 	context_object_name = 'tickets'
     #paginate_by  = 10
  
 #Ticket Detail
@@ -164,16 +180,57 @@ def generate_pins_for_ticket(request, ticket_id):
         ticket = Ticket.objects.get(id=ticket_id)
         for _ in range(20):
             Pin.objects.create(ticket=ticket)
-        messages.success(request, 'You have Generated 20 PINs Ticket.')
-        return redirect('pin-list')
+        messages.success(request, 'You have Generated 18 PINs Ticket.')
+        return redirect('pdf-pins')
     else:
         messages.success(request, 'You are not Authorize to Generate PINs for Tickets.')
         return redirect('dashboard-index')
 
 #PIN List View
+def Pin_Search_List(request):
+    context = {}
+    #Search PIN Form
+    searchForm = SearchEventTicketForm(request.GET or None)
+    
+    
+    if searchForm.is_valid():
+        #Value of search form
+        value = searchForm.cleaned_data['value']
+        #Filter Event Ticket PINs by Name reference
+        #list_pins = Pin.objects.filter(ticket__event__event_name__icontains=value)
+
+        list_pins = Pin.objects.filter(value=value)
+       
+    else:
+        list_pins = Pin.objects.order_by('-added')
+    #Set Pagination to 10/page
+    paginator = Paginator(list_pins, 10)
+    page = request.GET.get('page')
+    paged_listPin = paginator.get_page(page)
+    page_title = "Search and Print PINs"
+    context.update ({
+        'page_title':page_title,
+        'list_pins':paged_listPin,
+        'searchForm':searchForm,
+
+    })
+    return render(request, 'user/pin_list.html', context)
+
+
+class GeneratePdf(View):
+     def get(self, request, *args, **kwargs):
+        data = Pin.objects.all().order_by('-added')[:20]
+        open('templates/temp.html', "w").write(render_to_string('user/generated_pdf_pins.html', {'data': data}))
+
+        # Converting the HTML template into a PDF file
+        pdf = html_to_pdf('temp.html')
+         
+         # rendering the template
+        return HttpResponse(pdf, content_type='application/pdf')
+
 class PinListView(ListView):
 	template_name = 'user/pin_list.html'
-	queryset = Pin.objects.all()
+	queryset = Pin.objects.filter(status="Not Activated")
 	context_object_name = 'pins'
 
 
@@ -196,9 +253,9 @@ def pin_activation(request):
                 return redirect('pin-activation')
             else:
 
-                #Check if the PIN Correct
+                #Check PIN status
                 if check_pin_status:
-                    #Get Pin, Ticket, Event Date
+                    #Get Event Ticket Date of the PIN
                     event_date = check_pin_status.ticket.event.date
                     #Get Current Date
                     current_date = datetime.now().date()
@@ -337,4 +394,25 @@ def guest_confirmation(request):
 
     return render(request, 'user/confirmation.html', context)
 
-    
+#Delete Event View
+def delete_event(request, event_id):
+    try:
+        event = Event.objects.get(id=event_id)
+    except Event.DoesNotExist:
+        return redirect('event-list')
+
+    else:
+        event_name = event.event_name
+
+        if request.method == "POST":
+            event.delete()
+            messages.error(request, f'{event_name} Event Deleted Successfully.')
+            return redirect('event-list')
+        
+        page_title = "Delete Event"
+        context = {
+            'page_title':page_title,
+            'event_name':event_name,
+
+        }
+        return render(request, 'user/delete_confirm.html', context)

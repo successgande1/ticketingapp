@@ -27,27 +27,62 @@
                 </ul>
             </div>	
 
-                 <!-- Alerts-->	
-				{% include 'partials/_alerts.html' %}
-				<!-- Alerts End-->
+                  
+        <div class="container">
+
+          <div class="row my-4">
+
+            <div class="col-md-12">
+              <div class="border bg-white p-3">
+                  
+                  
+                  <h4 class="text-center">Search and Print Event Tickets</h4>
+                  <hr>
+                  <form method="GET">
+                    {% csrf_token %}
+  
+                    {{ searchForm | crispy }}
+                   
+  
+                    <!--Check Page Title and Allocate Submit Value-->
+                    <input class="btn btn-info btn-block" type="submit" 
+                    
+                   
+                    value="Search Event Tickets">
+  
+                    
+  
+                  </form>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
                 
                     <div class="col-md-12">
                         
                             
-                            {% if pins %}
+                            {% if list_pins %}
                            
                               
-                              {% for pin in pins %}
+                              {% for pin in list_pins %}
 
                               <div class="card-body">
                                 <div class="row">
 
                                     <div class="col-md-12">
+
+                                      <!-- Alerts-->	
+				                              {% include 'partials/_alerts.html' %}
+				                              <!-- Alerts End-->
+
+                                      <hr style="margin-bottom: 0.3%;">
                                       <div style="margin-left:40% ;">
                                         <img  width="70" height="70" src="{{ pin.ticket.event.event_logo.url }}" alt="applicant picture">
                                       </div>
                                         
-                                        <hr>
+                                        <hr style="margin-top: 0.3%;">
                                         <table class="table bg-white table-borderless">
                                             <tbody>
                                               <tr>
@@ -75,6 +110,10 @@
                                                 <th scope="row" style="text-align: left;">Ticket PIN:</th>
                                                 <td>{{ pin.value}}</td>                                   
                                               </tr>  
+                                              <tr>
+                                                <th scope="row" style="text-align: left;">PIN Ref:</th>
+                                                <td>{{ pin.reference}}</td>                                   
+                                              </tr>  
                                             
                                                             
                                             </tbody>
@@ -100,6 +139,62 @@
                 <!-- List Applicants END-->
             
         </div>
+        <!--Pagination Start Here-->
+        <div class="table-responsive mr-3">
+          <div class="col-md-8 mr-3">
+            {% if list_pins.has_other_pages %}
+            <ul class="pagination">
+              {% if list_pins.has_previous %}
+              <li class="page-item">
+                <a href="?page={{list_pins.previous_page_number}}" class="page-link">
+                  &laquo;
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">
+                  &laquo;
+                </a>
+              </li>
+              {% endif %}
+              {% for i in list_pins.paginator.page_range %}
+  
+              {% if list_pins.number == i %}
+  
+              <li class="page-item active">
+                <a  class="page-link">
+                  {{i}}
+                </a>
+              </li>
+  
+              {% else %}
+  
+              <li class="page-item">
+                <a href="?page={{i}}" class="page-link">{{i}}</a>
+              </li>
+  
+              {% endif %}
+  
+              {% endfor %}
+  
+              {% if list_pins.has_next %}
+              <li class="page-item">
+                <a href="?page={{list_pins.next_page_number}}" class="page-link">
+                  &raquo;
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">
+                  &raquo;
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+            {% endif %}
+          </div>
+        </div> 
+  <!--Pagination End Here-->
 
         <!--Pagination Start Here-->
         <div class="table-responsive mr-3">

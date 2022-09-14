@@ -116,6 +116,9 @@
           <p class="mb-5">If you have a question regarding our services, feel free
             to contact us using the form below.</p>
         </div>
+        <!-- Alerts-->	
+				{% include 'partials/_alerts.html' %}
+				<!-- Alerts End-->
         <div class="row mt-lg-3">
           <div class="col-lg-4 contacts-5-grid-main section-gap mb-lg-0 mb-4 pr-lg-5">
             <div class="contacts-5-grid">
@@ -158,25 +161,26 @@
           </div>
           <div class="col-lg-8 form-inner-cont">
             <form action="" method="post" class="signin-form">
+              {% csrf_token %}
               <div class="form-grids">
                 <div class="form-input" data-aos="fade-down">
-                  <input type="text" name="w3lName" id="w3lName" placeholder="Enter your name *" required="" />
+                  <input type="text" name="name" id="w3lName" placeholder="Enter your name *" required="" />
                 </div>
                 <div class="form-input"data-aos="fade-down" >
-                  <input type="text" name="w3lSubject" id="w3lSubject" placeholder="Enter subject " required />
+                  <input type="text" name="subject" id="Subject" placeholder="Enter subject " required />
                 </div>
                 <div class="form-input" data-aos="fade-up">
-                  <input type="email" name="w3lSender" id="w3lSender" placeholder="Enter your email *" required />
+                  <input type="email" name="email" id="Email" placeholder="Enter your email *" required />
                 </div>
                 <div class="form-input" data-aos="fade-up">
-                  <input type="text" name="w3lPhone" id="w3lPhone" placeholder="Enter your Phone Number *" required />
+                  <input type="text" name="phone" id="Phone" placeholder="Enter your Phone Number *" required />
                 </div>
               </div>
               <div class="form-input">
-                <textarea name="w3lMessage" id="w3lMessage" placeholder="Type your query here" required=""></textarea>
+                <textarea name="message" id="Message" placeholder="Type your query here" required=""></textarea>
               </div>
               <div class="text-right">
-                <button class="btn btn-style btn-primary">Submit Now</button>
+                <button type="submit" class="btn btn-style btn-primary">Submit Now</button>
               </div>
             </form>
           </div>

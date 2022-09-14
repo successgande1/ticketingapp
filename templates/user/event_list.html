@@ -44,19 +44,19 @@
                                 <th scope="col">Action</th>
                               </tr> 
                             </thead>
-                            {% if events %}
+                            {% if events %} 
                             <tbody>
                             
                               
                               {% for event in events %}
                               <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ event.event_name }}</td>
+                                <td>{{ event.event_name }}</td> 
                                 <td>{{ event.date}}</td>
                                 <td>{{ event.event_venue }}</td>
                                 <td><span ><img alt="" src="{{ event.event_logo.url }}" width="45" height="45"></span></td>
                                 <td>{{ event.added_date|naturaltime  }}</td>
-                                <td> <a class="btn btn-primary" href=" ">Delete</a></td>
+                                <td> <a class="btn btn-primary" href="{% url 'delete-event' event.id %}  ">Delete</a></td>
                               </tr>
                               {% endfor %}  
                             

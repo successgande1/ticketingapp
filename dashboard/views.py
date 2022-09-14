@@ -19,9 +19,9 @@ def index(request):
     #Total by events
     total_events = Event.objects.all().count()
     
-    #Sum Ticket activated
+    #Sum Ticket activated or get 0 value if None
     amount_sold_pins = Ticket.objects.filter(pin__status="Activated").aggregate(
-    total=Sum('price'))['total']
+    total=Sum('price')).get('total') or 0
     
 
     context = {

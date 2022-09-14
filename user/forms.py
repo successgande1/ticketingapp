@@ -101,4 +101,6 @@ class DrinkForm(forms.ModelForm):
 
         
 
-    
+    #Search Event Ticket PINs
+class SearchEventTicketForm(forms.Form):
+    value = forms.CharField(label = 'Event Ticket', max_length=30)
